@@ -6,10 +6,13 @@ import routes from "./routes";
 
 const app = express();
 
+app.use(express.json());
+
 const PORT = config.get<number>("port");
+const __BASE_URL = config.get<string>("__BASE_URL");
 
 app.listen(PORT, async () => {
-  logger.info(`Serving is listening at http://127.0.0.1:${PORT}`);
+  logger.info(`Server is listening at ${__BASE_URL}${PORT}`);
 
   await connectDB();
 
