@@ -1,17 +1,18 @@
 import { Request, Response } from "express";
-import logger from "../utils/logger";
+import { omit } from "lodash";
 import { CreateUserInput } from "../schema/user.schema";
-import createUser from "../service/user.service";
+import { createUser } from "../service/user.service";
+import logger from "../utils/logger";
 
-const createUserHandler = async (req: Request<{}, {}, CreateUserInput["body"]>, res: Response) => {
+export async function createUserHandler(
+  req: Request<{}, {}, CreateUserInput["body"]>,
+  res: Response
+) {
   try {
     const user = await createUser(req.body);
     return res.send(user);
-  } catch (error: any) {
-    logger.error(error);
-
-    return res.status(409).send(error.message);
+  } catch (e: any) {
+    logger.error(e);
+    return res.status(409).send(e.message);
   }
-};
-
-export { createUserHandler };
+}

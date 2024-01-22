@@ -1,6 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
-import config from "config";
+import { getEnvVariable } from "../utils/helper";
 
 export interface UserInput {
   email: string;
@@ -8,11 +8,10 @@ export interface UserInput {
   password: string;
 }
 
-// Define the structure of user document, extending mongoose.Document and UserInput
 export interface UserDocument extends UserInput, mongoose.Document {
   createdAt: Date;
   updatedAt: Date;
-  comparePassword(candidatePassword: string): Promise<boolean>;
+  comparePassword(candidatePassword: string): Promise<Boolean>;
 }
 
 const userSchema = new mongoose.Schema(
@@ -26,7 +25,6 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// Middleware executed before saving a user document
 userSchema.pre("save", async function (next) {
   let user = this as UserDocument;
 
@@ -34,28 +32,19 @@ userSchema.pre("save", async function (next) {
     return next();
   }
 
-  const salt = bcrypt.genSaltSync(config.get<number>("saltWorkFactor") || 10);
+  const salt = await bcrypt.genSalt(parseInt(process.env.SALT_WORK_FACTOR ?? "10", 10));
 
-  try {
-    const hash = await bcrypt.hash(user.password, salt);
-    user.password = hash;
-    return next();
-  } catch (error: any) {
-    console.error(`Error hashing password: ${error}`);
-    return next(error);
-  }
+  const hash = await bcrypt.hashSync(user.password, salt);
+
+  user.password = hash;
+
+  return next();
 });
 
-// Method to compare a candidate password with the hashed password stored in the database
 userSchema.methods.comparePassword = async function (candidatePassword: string): Promise<boolean> {
   const user = this as UserDocument;
 
-  try {
-    return await bcrypt.compare(candidatePassword, user.password);
-  } catch (error) {
-    console.error(`Error comparing passwords: ${error}`);
-    return false;
-  }
+  return bcrypt.compare(candidatePassword, user.password).catch((e) => false);
 };
 
 const UserModel = mongoose.model<UserDocument>("User", userSchema);
