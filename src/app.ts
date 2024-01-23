@@ -3,10 +3,13 @@ import connectDB from "./utils/connect";
 import logger from "./utils/logger";
 import routes from "./routes";
 import { getEnvVariable } from "./utils/helper";
+import deserializeUser from "./middleware/deserializeUser";
 
 const app = express();
 
 app.use(express.json());
+
+app.use(deserializeUser);
 
 const PORT = getEnvVariable("PORT");
 const __BASE_URL = getEnvVariable("__BASE_URL");
