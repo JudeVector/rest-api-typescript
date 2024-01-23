@@ -25,9 +25,9 @@ export const updateSessions = async (
 export const reIssueAccessToken = async ({ refreshToken }: { refreshToken: string }) => {
   const { decoded } = verifyJwt(refreshToken, "REFRESH_TOKEN_PUBLIC_KEY");
 
-  if (!decoded || !get(decoded, "_id")) return false;
+  if (!decoded || !get(decoded, "session")) return false;
 
-  const session = await SessionModel.findById(get(decoded, "_id"));
+  const session = await SessionModel.findById(get(decoded, "session"));
 
   if (!session || !session.valid) return false;
 
@@ -37,7 +37,7 @@ export const reIssueAccessToken = async ({ refreshToken }: { refreshToken: strin
 
   const accessToken = signJwt({ ...user, session: session._id }, "ACCESS_TOKEN_PRIVATE_KEY", {
     expiresIn: `${getEnvVariable("ACCESS_TOKEN_EXPIRES_IN")}`,
-  });
+  }); // 15 minutes
 
   return accessToken;
 };

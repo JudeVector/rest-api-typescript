@@ -6,7 +6,7 @@ import { reIssueAccessToken } from "../service/session.service";
 const deserializeUser = async (req: Request, res: Response, next: NextFunction) => {
   const accessToken = get(req, "headers.authorization", "").replace(/^Bearer\s/, "");
 
-  const refreshToken = get(req, "headers.x-refresh");
+  const refreshToken = get(req, "headers.x-refresh")?.toString();
 
   if (!accessToken) {
     return next();
@@ -17,14 +17,21 @@ const deserializeUser = async (req: Request, res: Response, next: NextFunction) 
 
     if (decoded) {
       res.locals.user = decoded;
+      return next();
     }
 
     if (expired && refreshToken) {
-      const newAcessToken = await reIssueAccessToken({ refreshToken });
+      const newAccessToken = await reIssueAccessToken({ refreshToken });
+      console.log("newAccessToken: " + newAccessToken);
 
-      if (newAcessToken) {
-        res.setHeader("x-access-token", newAcessToken);
+      if (newAccessToken) {
+        res.setHeader("x-access-token", newAccessToken);
       }
+
+      const result = verifyJwt(newAccessToken as string, "REFRESH_TOKEN_PUBLIC_KEY");
+
+      res.locals.user = result.decoded;
+      return next();
     }
   } catch (error) {
     console.error("Error verifying access token:", error);

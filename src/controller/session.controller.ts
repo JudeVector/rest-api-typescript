@@ -1,5 +1,4 @@
 import { Request, Response } from "express";
-import config from "config";
 import { createSession, findSessions, updateSessions } from "../service/session.service";
 import { validatePassword } from "../service/user.service";
 import { signJwt } from "../utils/jwt.utils";
@@ -19,14 +18,13 @@ export const createUserSessionHandler = async (req: Request, res: Response) => {
   // Sign Access and Refresh tokens
   const accessToken = signJwt({ ...user, session: session._id }, "ACCESS_TOKEN_PRIVATE_KEY", {
     expiresIn: `${getEnvVariable("ACCESS_TOKEN_EXPIRES_IN")}`,
-  });
+  }); // 15 minutes
 
   const refreshToken = signJwt({ ...user, session: session._id }, "REFRESH_TOKEN_PRIVATE_KEY", {
     expiresIn: `${getEnvVariable("REFRESH_TOKEN_EXPIRES_IN")}`,
-  });
+  }); // 60 minutes
 
   // return access & refresh tokens
-
   return res.send({ accessToken, refreshToken });
 };
 
