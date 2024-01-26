@@ -6,6 +6,7 @@ const nanoid = customAlphabet("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVW
 
 export interface ProductInput {
   user: UserDocument["_id"];
+  productId?: string;
   title: string;
   description: string;
   price: number;

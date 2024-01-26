@@ -43,7 +43,7 @@ const routes = (app: Express) => {
     updateProductHandler
   );
 
-  app.get("/api/products/:productId", [requireUser, validate(getProductSchema)], getProductHandler);
+  app.get("/api/products/:productId", validate(getProductSchema), getProductHandler);
 
   app.delete(
     "/api/products/:productId",
