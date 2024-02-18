@@ -3,6 +3,7 @@ import logger from "./utils/logger";
 import { getEnvVariable } from "./utils/helper";
 import createServer from "./utils/server";
 import { startMetricServer } from "./utils/metrics";
+import swaggerDocs from "./utils/swagger";
 
 const app = createServer();
 
@@ -15,4 +16,6 @@ app.listen(PORT, async () => {
   await connectDB();
 
   startMetricServer();
+
+  swaggerDocs(app, PORT);
 });

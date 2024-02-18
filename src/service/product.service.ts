@@ -37,7 +37,7 @@ export const findProduct = async (
   } catch (error) {
     console.log(error);
     timer({ ...metricsLabels, success: "false" });
-    console.log("Error finfing Product");
+    console.log("Error finding Product");
   }
 };
 

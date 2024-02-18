@@ -16,6 +16,11 @@ export const databaseResponseTimeHistogram = new client.Histogram({
   labelNames: ["operation", "success"],
 });
 
+export const totalRequestConter = new client.Counter({
+  name: "total_request_duration",
+  help: "Total duration in seconds",
+});
+
 export const startMetricServer = () => {
   const collectDefaultMetrics = client.collectDefaultMetrics;
 

@@ -23,6 +23,9 @@
     "pino-pretty": "^10.3.1",
     "prom-client": "^15.1.0",
     "response-time": "^2.3.2",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0",
+    "yamljs": "^0.3.0",
     "zod": "^3.22.4"
   },
   "devDependencies": {
@@ -39,6 +42,9 @@
     "@types/pino": "^7.0.5",
     "@types/response-time": "^2.3.8",
     "@types/supertest": "^6.0.2",
+    "@types/swagger-jsdoc": "^6.0.4",
+    "@types/swagger-ui-express": "^4.1.6",
+    "@types/yamljs": "^0.2.34",
     "jest": "^27.2.4",
     "mongodb-memory-server": "^8.12.2",
     "supertest": "^6.1.6",

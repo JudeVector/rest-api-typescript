@@ -2,7 +2,7 @@ import express, { Request, Response } from "express";
 import deserializeUser from "../middleware/deserializeUser";
 import routes from "../routes";
 import responseTime from "response-time";
-import { restResponseTimeHistogram } from "./metrics";
+import { restResponseTimeHistogram, totalRequestConter } from "./metrics";
 
 const createServer = () => {
   const app = express();
@@ -13,6 +13,7 @@ const createServer = () => {
 
   app.use(
     responseTime((req: Request, res: Response, time: number) => {
+      totalRequestConter.inc();
       if (req?.route?.path) {
         restResponseTimeHistogram.observe(
           {

@@ -47,12 +47,17 @@ describe("product", () => {
     describe("given the product does exist", () => {
       it("should return a 200 status and the product", async () => {
         const product = await createProduct(productPayload);
+        if (product) {
+          const { body, statusCode } = await supertest(app).get(
+            `/api/products/${product.productId}`
+          );
 
-        const { body, statusCode } = await supertest(app).get(`/api/products/${product.productId}`);
-
-        expect(statusCode).toBe(200);
-
-        expect(body.productId).toBe(product.productId);
+          expect(statusCode).toBe(200);
+          expect(body.productId).toBe(product.productId);
+        } else {
+          // This Handles the case where product does not exist
+          fail("Product not found"); // fails with a log message
+        }
       });
     });
   });
