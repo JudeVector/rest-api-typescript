@@ -8,7 +8,8 @@ const options: swaggerJsdoc.Options = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "REST API Docs",
+      title: "E-Commerce API Docs",
+      description: "API Documentation for E-Commerce Application",
       version,
     },
     components: {

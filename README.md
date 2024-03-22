@@ -1,8 +1,8 @@
-# rest-api-typescript
+# E-Commerce API
 
 ## Overview
 
-Welcome to **rest-api-typescript**, a robust REST API developed with Node.js, TypeScript, Express, and MongoDB. This API empowers you to efficiently manage users, sessions, and products with ease.
+Welcome to **e-commerce-api**, a robust REST API developed with Node.js, TypeScript, Express, and MongoDB. This API empowers you to efficiently manage users, sessions, and products with ease.
 
 ## Features
 
@@ -23,9 +23,9 @@ Welcome to **rest-api-typescript**, a robust REST API developed with Node.js, Ty
 
 ## Getting Started
 
-Follow these steps to get started with **rest-api-typescript**:
+Follow these steps to get started with **E-Commerce API**:
 
-1. Clone the repository: `git clone https://github.com/judevector/rest-api-typescript.git`
+1. Clone the repository: `git clone https://github.com/judevector/e-commerce-api.git`
 2. Install dependencies: `yarn install`
 3. Set up your MongoDB database and configure the connection in the project.
 4. Run the API: `yarn dev`

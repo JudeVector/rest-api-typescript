@@ -1,9 +1,37 @@
-version: "3"
+version: "3.7"
 
 services:
+  rest-api-ts:
+    container_name: e-commerce-api
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 1337:1337
+
+  caddy:
+    image: caddy/caddy:2.2.1-alpine
+    container_name: caddy-service
+    restart: unless-stopped
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - $PWD/Caddyfile:/etc/caddy/Caddyfile
+      - $PWD/site:/srv
+      - caddy_data:/data
+      - caddy_config:/config
+
   prom-server:
     image: prom/prometheus
     ports:
       - 9090:9090
     volumes:
       - ./prometheus-config.yml:/etc/prometheus/prometheus.yml
+
+volumes:
+  caddy_data:
+  caddy_config:
