@@ -1,5 +1,7 @@
 # E-Commerce API
 
+![E Commerce API](e-commerce-api.png)
+
 ## Overview
 
 Welcome to **e-commerce-api**, a robust REST API developed with Node.js, TypeScript, Express, and MongoDB. This API empowers you to efficiently manage users, sessions, and products with ease.
